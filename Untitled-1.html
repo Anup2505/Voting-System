@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voting System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+       .container {
+            width: 80%;
+            margin: 40px auto;
+            text-align: center;
+        }
+       .button {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+       .button:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Voting System</h1>
+        <form id="voting-form">
+            <label for="candidate-name">Enter candidate name:</label>
+            <input type="text" id="candidate-name" name="candidate-name"><br><br>
+            <button class="button" id="add-candidate-btn">Add Candidate</button>
+            <button class="button" id="vote-btn">Vote</button>
+            <button class="button" id="display-results-btn">Display Results</button>
+        </form>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const votingForm = document.getElementById('voting-form');
+        const addCandidateBtn = document.getElementById('add-candidate-btn');
+        const voteBtn = document.getElementById('vote-btn');
+        const displayResultsBtn = document.getElementById('display-results-btn');
+        const resultsDiv = document.getElementById('results');
+
+        let candidates = {};
+
+        addCandidateBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const candidateName = document.getElementById('candidate-name').value;
+            if (candidateName!== '') {
+                candidates[candidateName] = 0;
+                document.getElementById('candidate-name').value = '';
+            }
+        });
+
+        voteBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const candidateName = document.getElementById('candidate-name').value;
+            if (candidateName!== '' && candidates[candidateName]!== undefined) {
+                candidates[candidateName]++;
+                document.getElementById('candidate-name').value = '';
+            } else {
+                alert('Candidate not found!');
+            }
+        });
+
+        displayResultsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            let resultsHtml = '';
+            for (const candidate in candidates) {
+                resultsHtml += `Candidate: ${candidate}, Votes: ${candidates[candidate]}<br>`;
+            }
+            resultsDiv.innerHTML = resultsHtml;
+        });
+    </script>
+</body>
+</html>
